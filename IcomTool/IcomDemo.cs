@@ -24,6 +24,7 @@ namespace IcomTool
         {
             cmdDisconnect.Enabled = false;
             cmdSend.Enabled = false;
+            cmdTune.Enabled = false;
             myCIV = new CIVSharp.CIV();
             string[] radios = myCIV.GetRadioNames();
             string[] ports = myCIV.GetSerialPorts();
@@ -36,7 +37,7 @@ namespace IcomTool
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             myCIV.setRadioID(CIVSharp.CIV.Radio.IC_7100);
-            if (!myCIV.OpenSerialPort(lbPorts.SelectedItem.ToString(), 300))
+            if (!myCIV.OpenSerialPort(lbPorts.SelectedItem.ToString(), 19200))
             {
                 string exceptionText = myCIV.GetSerialException().Message;
                 MessageBox.Show("Unable to open port " + lbPorts.SelectedItem.ToString() + ": " + exceptionText, "Error opening port: ", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -48,6 +49,7 @@ namespace IcomTool
                 cmdFind.Enabled = false;
                 cmdDisconnect.Enabled = true;
                 cmdSend.Enabled = true;
+                cmdTune.Enabled = true;
             }
         }
 
@@ -70,8 +72,8 @@ namespace IcomTool
         {
 
             //byte[] buffer = { 0x88, 0xE0, 0x19, 0x00 };
-            byte[] buffer = { (byte)CIVSharp.CIV.CommandBytes.COMMAND_TRANCEIVER_ID_READ, 0x00 };
-            myCIV.TransmitCommand(buffer);
+            //byte[] buffer = { (byte)CIVSharp.CIV.CommandBytes.COMMAND_TRANCEIVER_ID_READ, 0x00 };
+            //myCIV.TransmitCommand(buffer);
             //myCIV.AutoDetectrRadio();
         }
 
@@ -87,6 +89,7 @@ namespace IcomTool
                 cmdFind.Enabled = false;
                 cmdDisconnect.Enabled = true;
                 cmdSend.Enabled = true;
+                cmdTune.Enabled = true;
                 MessageBox.Show("Found radio: " + radioInfo.RadioName + " on port " + radioInfo.CommPort + " with baud rate " + radioInfo.baudRate.ToString() + " with address " + radioInfo.RadioAddress.ToString("X2"), "Radio Autodetect", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -98,7 +101,16 @@ namespace IcomTool
             cmdFind.Enabled = true;
             cmdDisconnect.Enabled = false;
             cmdSend.Enabled = false;
+            cmdTune.Enabled = false;
+        }
 
+        private void cmdTune_Click(object sender, EventArgs e)
+        {
+            double frequency;
+            if (double.TryParse(txtFrequency.Text, out frequency))
+            {
+                myCIV.TuneFrequency(frequency);
+            }
         }
     }
 }

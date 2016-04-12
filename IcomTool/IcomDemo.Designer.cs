@@ -35,6 +35,8 @@
             this.cmdSend = new System.Windows.Forms.Button();
             this.cmdFind = new System.Windows.Forms.Button();
             this.cmdDisconnect = new System.Windows.Forms.Button();
+            this.txtFrequency = new System.Windows.Forms.TextBox();
+            this.cmdTune = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lbPorts
@@ -65,11 +67,11 @@
             // 
             // mlText
             // 
-            this.mlText.Location = new System.Drawing.Point(26, 181);
+            this.mlText.Location = new System.Drawing.Point(26, 193);
             this.mlText.Multiline = true;
             this.mlText.Name = "mlText";
             this.mlText.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.mlText.Size = new System.Drawing.Size(267, 139);
+            this.mlText.Size = new System.Drawing.Size(267, 127);
             this.mlText.TabIndex = 3;
             // 
             // cmdSend
@@ -102,11 +104,30 @@
             this.cmdDisconnect.UseVisualStyleBackColor = true;
             this.cmdDisconnect.Click += new System.EventHandler(this.cmdDisconnect_Click);
             // 
+            // txtFrequency
+            // 
+            this.txtFrequency.Location = new System.Drawing.Point(26, 167);
+            this.txtFrequency.Name = "txtFrequency";
+            this.txtFrequency.Size = new System.Drawing.Size(116, 20);
+            this.txtFrequency.TabIndex = 7;
+            // 
+            // cmdTune
+            // 
+            this.cmdTune.Location = new System.Drawing.Point(167, 165);
+            this.cmdTune.Name = "cmdTune";
+            this.cmdTune.Size = new System.Drawing.Size(126, 22);
+            this.cmdTune.TabIndex = 8;
+            this.cmdTune.Text = "Tune";
+            this.cmdTune.UseVisualStyleBackColor = true;
+            this.cmdTune.Click += new System.EventHandler(this.cmdTune_Click);
+            // 
             // IcomDemo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(305, 332);
+            this.Controls.Add(this.cmdTune);
+            this.Controls.Add(this.txtFrequency);
             this.Controls.Add(this.cmdDisconnect);
             this.Controls.Add(this.cmdFind);
             this.Controls.Add(this.cmdSend);
@@ -131,6 +152,8 @@
         private System.Windows.Forms.Button cmdSend;
         private System.Windows.Forms.Button cmdFind;
         private System.Windows.Forms.Button cmdDisconnect;
+        private System.Windows.Forms.TextBox txtFrequency;
+        private System.Windows.Forms.Button cmdTune;
     }
 }
 
