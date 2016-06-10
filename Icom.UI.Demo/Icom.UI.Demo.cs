@@ -1,31 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
-using CIVSharp;
+using Icom.CIV;
 
-namespace IcomTool
+namespace Icom.UI
 {
-    public partial class IcomDemo : Form
+    public partial class Demo : Form
     {
-        CIVSharp.CIV myCIV;
-        public IcomDemo()
+        Core myCIV;
+        public Demo()
         {
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void IcomDemo_Load(object sender, EventArgs e)
         {
             cmdDisconnect.Enabled = false;
             cmdSend.Enabled = false;
             cmdTune.Enabled = false;
-            myCIV = new CIVSharp.CIV();
+            myCIV = new Core();
             string[] radios = myCIV.GetRadioNames();
             string[] ports = myCIV.GetSerialPorts();
             foreach (string radio in radios)
@@ -36,7 +28,7 @@ namespace IcomTool
 
         private void cmdConnect_Click(object sender, EventArgs e)
         {
-            myCIV.setRadioID(CIVSharp.CIV.Radio.IC_7100);
+            myCIV.setRadioID(Core.Radio.IC_7100);
             if (!myCIV.OpenSerialPort(lbPorts.SelectedItem.ToString(), 19200))
             {
                 string exceptionText = myCIV.GetSerialException().Message;
@@ -44,7 +36,7 @@ namespace IcomTool
             }
             else
             {
-                myCIV.CommandWaiting += new CIVSharp.CIVCommandReadyEvent(CIVDataHandler);
+                myCIV.CommandWaiting += new CIVCommandReadyEvent(CIVDataHandler);
                 cmdConnect.Enabled = false;
                 cmdFind.Enabled = false;
                 cmdDisconnect.Enabled = true;
@@ -55,7 +47,7 @@ namespace IcomTool
 
         private void CIVDataHandler(object sender, EventArgs e)
         {
-            CIVSharp.CIV thisCIV = (CIVSharp.CIV)sender;
+            Core thisCIV = (Core)sender;
 
             while (thisCIV.CommandQueued())
             {
@@ -80,17 +72,21 @@ namespace IcomTool
         private void cmdFind_Click(object sender, EventArgs e)
         {
             Cursor.Current = Cursors.WaitCursor;
-            CIV.RadioInfo radioInfo = myCIV.AutoDetectRadio(true);
+            Core.RadioInfo radioInfo = myCIV.AutoDetectRadio(true);
             Cursor.Current = Cursors.Default;
-            if (radioInfo.RadioID != CIV.Radio.NULL_RADIO)
+            if (radioInfo.RadioID != Core.Radio.NULL_RADIO)
             {
-                myCIV.CommandWaiting += new CIVSharp.CIVCommandReadyEvent(CIVDataHandler);
+                myCIV.CommandWaiting += new Icom.CIV.CIVCommandReadyEvent(CIVDataHandler);
                 cmdConnect.Enabled = false;
                 cmdFind.Enabled = false;
                 cmdDisconnect.Enabled = true;
                 cmdSend.Enabled = true;
                 cmdTune.Enabled = true;
                 MessageBox.Show("Found radio: " + radioInfo.RadioName + " on port " + radioInfo.CommPort + " with baud rate " + radioInfo.baudRate.ToString() + " with address " + radioInfo.RadioAddress.ToString("X2"), "Radio Autodetect", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("No ICOM radio(s) found", "Radio Autodetect", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -109,7 +105,7 @@ namespace IcomTool
             double frequency;
             if (double.TryParse(txtFrequency.Text, out frequency))
             {
-                myCIV.TuneFrequency(frequency);
+                myCIV.TuneFrequency(frequency, Core.RadioMode.MODE_LSB);
             }
         }
     }

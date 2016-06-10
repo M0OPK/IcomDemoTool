@@ -1,6 +1,6 @@
-﻿namespace IcomTool
+﻿namespace Icom.UI
 {
-    partial class IcomDemo
+    partial class Demo
     {
         /// <summary>
         /// Required designer variable.
@@ -137,7 +137,7 @@
             this.Controls.Add(this.lbPorts);
             this.Name = "IcomDemo";
             this.Text = "Icom Demo";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Load += new System.EventHandler(this.IcomDemo_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

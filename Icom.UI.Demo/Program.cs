@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IcomTool
+namespace Icom.UI
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace IcomTool
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new IcomDemo());
+            Application.Run(new Demo());
         }
     }
 }
