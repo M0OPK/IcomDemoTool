@@ -17,6 +17,7 @@
             {
                 components.Dispose();
             }
+            myCIV.Dispose();
             base.Dispose(disposing);
         }
 
