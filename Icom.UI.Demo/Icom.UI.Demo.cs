@@ -67,6 +67,9 @@ namespace Icom.UI
             //byte[] buffer = { (byte)CIVSharp.CIV.CommandBytes.COMMAND_TRANCEIVER_ID_READ, 0x00 };
             //myCIV.TransmitCommand(buffer);
             //myCIV.AutoDetectrRadio();
+
+            byte[] buffer = { 0x1A, 0x00, 0x02, 0x00, 0x01 };
+            myCIV.TransmitCommand(buffer);
         }
 
         private void cmdFind_Click(object sender, EventArgs e)
@@ -92,6 +95,8 @@ namespace Icom.UI
 
         private void cmdDisconnect_Click(object sender, EventArgs e)
         {
+            myCIV.CommandWaiting -= new Icom.CIV.CIVCommandReadyEvent(CIVDataHandler);
+            myCIV.CommandWaiting -= new Icom.CIV.CIVCommandReadyEvent(CIVDataHandler);
             myCIV.CloseSerialPort();
             cmdConnect.Enabled = true;
             cmdFind.Enabled = true;
